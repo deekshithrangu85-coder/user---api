@@ -1,31 +1,27 @@
 package com.deekshith.userapi.controller;
-import com.deekshith.userapi.dto.UserDTO;
+import org.springframework.web.bind.annotation.*;
 import com.deekshith.userapi.entity.User;
 import com.deekshith.userapi.service.UserService;
-
+import com.deekshith.userapi.dto.UserDTO;
 import jakarta.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
-    @Autowired
-    private UserService userService;
-
-    // ✅ CREATE USER (POST)
-    @PostMapping
-    public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO) {
-        User user = userService.saveUser(userDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    private final UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
-
-    // ✅ UPDATE USER (PUT)
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+    @PostMapping
+    public User createUser(@RequestBody @Valid UserDTO userDTO) {
+        return userService.saveUserWithOrders(userDTO);
+    }
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 }

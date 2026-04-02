@@ -1,7 +1,8 @@
 package com.deekshith.userapi.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-
+import java.util.List;
+import com.deekshith.userapi.dto.OrderDTO;
 public class UserDTO {
 
     @NotBlank(message = "Name is required")
@@ -11,7 +12,7 @@ public class UserDTO {
     @Email(message = "Invalid email format")
     private String email;
 
-    // ✅ Getters and Setters
+    private List<OrderDTO> orders;
 
     public String getName() {
         return name;
@@ -27,5 +28,13 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<OrderDTO> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderDTO> orders) {
+        this.orders = orders;
     }
 }
